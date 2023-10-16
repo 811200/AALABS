@@ -2,43 +2,38 @@
 // wait for the page to finish loading with init as the callback
 window.addEventListener("load", init);
 
-let movers = []
+// global variables
+let canvas, context;
+let bubbles = [];
 
 function init() {
     canvas = document.getElementById("cnv");
     context = canvas.getContext("2d");
-    let numMax = 50;
-    loadMovers(numMax);
-    animate();
+    loadBubbles(200);
+    animate();      // kick off the animation
 }
-
 
 // every animation cycle
 function animate() {
+    // erase the HTMLCanvasElement
     context.clearRect(0, 0, canvas.width, canvas.height);
-    context.fillStyle = "rgb(200,100,100)";
-    context.fillRect(0, 0, canvas.width, canvas.height);
-    runMovers();
-  
+    runBubbles();   // run bubbles
     requestAnimationFrame(animate); // next cycle
 }
 
-function loadMovers(n) {
+function loadBubbles(n) {
     for (let i = 0; i < n; i++) {
         let x = Math.random() * canvas.width;
         let y = Math.random() * canvas.height;
-        let r = 10;
-        movers[i] = new Mover(x, y, r, false, false);
-
-
+        let r = Math.random() * 5 + 5;
+        bubbles[i] = new Bubble(x, y, r);
     }
 }
 
-function runMovers() {
-    for (let i = 0; i < movers.length; i++) {
-        movers[i].run();
+// move the circle to a new location
+function runBubbles() {
+    for (let i = 0; i < bubbles.length; i++) {
+        bubbles[i].run();
     }
 }
-
-
 
